@@ -5,9 +5,13 @@ import { cn } from '@/lib/utils';
 import React from 'react';
 import { Logo } from './logo';
 import { ModeToggle } from '@/components/mode-toggle';
+import { useConvexAuth } from 'convex/react';
+import { SignInButton } from '@clerk/clerk-react';
+import { Button } from '@/components/ui/button';
 
 const Navbar = () => {
   const scrolled = useScrollTop();
+  const { isAuthenticated, isLoading } = useConvexAuth();
   return (
     <div
       className={cn(
@@ -17,6 +21,19 @@ const Navbar = () => {
     >
       <Logo />
       <div className='md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2'>
+        {isLoading && <p>Loading</p>}
+        {!isAuthenticated && !isLoading && (
+          <>
+            <SignInButton>
+              <Button variant='ghost' size='sm'>
+                Login
+              </Button>
+            </SignInButton>
+            <SignInButton mode='modal'>
+              <Button size='sm'>Get Jotion Free</Button>
+            </SignInButton>
+          </>
+        )}
         <ModeToggle />
       </div>
     </div>
