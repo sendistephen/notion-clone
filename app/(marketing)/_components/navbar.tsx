@@ -6,9 +6,10 @@ import React from 'react';
 import { Logo } from './logo';
 import { ModeToggle } from '@/components/mode-toggle';
 import { useConvexAuth } from 'convex/react';
-import { SignInButton } from '@clerk/clerk-react';
+import { SignInButton, UserButton } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
 import { Spinner } from './spinner';
+import Link from 'next/link';
 
 const Navbar = () => {
   const scrolled = useScrollTop();
@@ -33,6 +34,14 @@ const Navbar = () => {
             <SignInButton mode='modal'>
               <Button size='sm'>Get Jotion Free</Button>
             </SignInButton>
+          </>
+        )}
+        {isAuthenticated && !isLoading && (
+          <>
+            <Button size='sm' variant='ghost' asChild>
+              <Link href='/document'>Enter Jotion</Link>
+            </Button>
+            <UserButton afterSignOutUrl='/' />
           </>
         )}
         <ModeToggle />
