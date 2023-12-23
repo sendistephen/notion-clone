@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { ChevronsLeft, MenuIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import React, { ElementRef, MouseEvent, useRef, useState } from 'react';
+import React, { ElementRef, useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 
 const Navigation = () => {
@@ -52,9 +52,35 @@ const Navigation = () => {
     e.preventDefault();
     e.stopPropagation();
     isResizingRef.current = true;
-    document.addEventListener('mousemove', handleMouseMove as EventListener);
+    document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
   };
+
+  const collapse = () => {
+    if (sidebarRef.current && navbarRef.current) {
+      setCollapsed(true);
+      setResetting(true);
+
+      sidebarRef.current.style.width = '0';
+      navbarRef.current.style.setProperty('width', '100%');
+      navbarRef.current.style.setProperty('left', '0');
+      setTimeout(() => setResetting(false), 300);
+    }
+  };
+
+  useEffect(() => {
+    if (isMobile) {
+      collapse();
+    } else {
+      resetWidth();
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (isMobile) {
+      collapse();
+    }
+  }, [pathname, isMobile]);
 
   return (
     <>
@@ -67,6 +93,7 @@ const Navigation = () => {
         )}
       >
         <div
+          onClick={collapse}
           role='button'
           className={cn(
             `h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 
@@ -98,7 +125,11 @@ const Navigation = () => {
       >
         <nav className='bg-transparent px-3 py-2 w-full'>
           {isCollapsed && (
-            <MenuIcon role='button' className='h-6 w-6 text-muted-foreground' />
+            <MenuIcon
+              onClick={resetWidth}
+              role='button'
+              className='h-6 w-6 text-muted-foreground'
+            />
           )}
         </nav>
       </div>
