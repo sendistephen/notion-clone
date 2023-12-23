@@ -27,8 +27,9 @@ const Heading = () => {
       )}
       {isAuthenticated && !isLoading && (
         <Button>
-          <Link href='/documents'>
-            Enter Jotion <ArrowRightIcon className='h-4 w-4 ml-2' />
+          <Link href='/documents' className='flex items-center'>
+            <span>Enter Jotion </span>{' '}
+            <ArrowRightIcon className='h-4 w-4 ml-2' />
           </Link>
         </Button>
       )}
