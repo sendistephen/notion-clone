@@ -37,7 +37,6 @@ export default function RootLayout({
       <body className={inter.className} suppressHydrationWarning>
         {
           <ConvexClientProvider>
-            <Toaster />
             <ThemeProvider
               attribute='class'
               defaultTheme='system'
@@ -45,6 +44,7 @@ export default function RootLayout({
               disableTransitionOnChange
               storageKey='jotion-theme-2'
             >
+              <Toaster position='bottom-center' />
               {children}
             </ThemeProvider>
           </ConvexClientProvider>
